@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QuickGigs – Get Paid in 15 Minutes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --lime: #aaff00;
+      --pink: #ff0099;
+      --black: #0a0a0a;
+      --gray: #1a1a1a;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--black);
+      color: white;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    .container { max-width: 420px; margin: 0 auto; padding: 1rem; }
+    header {
+      text-align: center;
+      padding: 2rem 0;
+    }
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.2rem;
+      color: var(--lime);
+    }
+    .tagline {
+      font-size: 1.1rem;
+      margin: 0.5rem 0 1.5rem;
+      color: #aaa;
+    }
+    .timer {
+      background: var(--lime);
+      color: var(--black);
+      padding: 0.8rem;
+      border-radius: 12px;
+      font-weight: 700;
+      text-align: center;
+      margin: 1rem 0;
+      font-size: 1.3rem;
+    }
+    .btn {
+      background: var(--lime);
+      color: var(--black);
+      border: none;
+      padding: 1rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 12px;
+      width: 100%;
+      margin: 0.8rem 0;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn:hover { transform: scale(1.02); }
+    .btn-pink {
+      background: var(--pink);
+      color: white;
+    }
+    .form-group {
+      margin: 1rem 0;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 0.9rem;
+      border: 2px solid #333;
+      border-radius: 10px;
+      background: var(--gray);
+      color: white;
+      font-size: 1rem;
+    }
+    .examples {
+      background: #111;
+      padding: 1rem;
+      border-radius: 12px;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+    }
+    .example {
+      margin: 0.6rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    .example::before {
+      content: "⏱️";
+      position: absolute;
+      left: 0;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: #666;
+      font-size: 0.8rem;
+    }
+    .countdown {
+      font-family: monospace;
+      font-size: 1.5rem;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- HEADER -->
+  <header>
+    <div class="logo">QuickGigs</div>
+    <p class="tagline">Get paid for 15-minute favors. Anywhere. Anytime.</p>
+    <div class="timer">⏰ Gigs expire in <span id="countdown">15:00</span></div>
+  </header>
+
+  <!-- HERO CTA -->
+  <button class="btn" onclick="document.getElementById('post-form').scrollIntoView()">
+    🚀 Post a 15-Min Gig
+  </button>
+  <button class="btn btn-pink" onclick="alert('Coming soon: Browse gigs near you!')">
+    👀 Browse Gigs Nearby
+  </button>
+
+  <!-- EXAMPLES -->
+  <div class="examples">
+    <p><strong>Popular 15-min gigs:</strong></p>
+    <div class="example">$12 – Carry my laundry downstairs</div>
+    <div class="example">$20 – Edit my TikTok Reel</div>
+    <div class="example">$15 – Duo-queue Valorant (1 game)</div>
+    <div class="example">$8 – Grab my Starbucks on your way</div>
+  </div>
+
+  <!-- POST GIG FORM -->
+  <div id="post-form">
+    <h2 style="font-size:1.3rem; margin:1.5rem 0 1rem;">Post Your Gig</h2>
+    <form id="gig-form" action="https://formspree.io/f/mrboyjrk" method="POST">
+      <div class="form-group">
+        <label>Title (e.g., "$15 to film my dorm tour")</label>
+        <input type="text" name="title" required placeholder="Be specific + include price" />
+      </div>
+      <div class="form-group">
+        <label>Location (we'll auto-detect)</label>
+        <input type="text" id="location" name="location" readonly />
+      </div>
+      <div class="form-group">
+        <label>Details (max 100 chars)</label>
+        <textarea name="details" rows="2" maxlength="100" placeholder="Meet at library steps. Bring phone. Pay via Venmo."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Your Venmo / Cash App</label>
+        <input type="text" name="payment" required placeholder="@yourusername" />
+      </div>
+      <div class="form-group">
+        <label>Your Contact (DM or phone)</label>
+        <input type="text" name="contact" required placeholder="IG: @you or 555-..." />
+      </div>
+      <button type="submit" class="btn">Post Gig – FREE</button>
+      <button type="button" class="btn btn-pink" onclick="boostGig()">Boost for $2 (Top of feed)</button>
+    </form>
+  </div>
+
+  <!-- SUCCESS MESSAGE -->
+  <div id="success" class="hidden" style="background:var(--lime); color:var(--black); padding:1.5rem; border-radius:12px; text-align:center; margin:1.5rem 0;">
+    <strong>🎉 Gig posted!</strong><br>Share this link: <span id="share-link">quickgigs.app/your-gig</span>
+  </div>
+
+  <footer>
+    <p>© 2025 QuickGigs • <a href="#" style="color:var(--lime);">Join Waitlist</a></p>
+  </footer>
+</div>
+
+<script>
+  // 15-Min Countdown
+  let seconds = 15 * 60;
+  const countdownEl = document.getElementById('countdown');
+  setInterval(() => {
+    seconds--;
+    const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const secs = (seconds % 60).toString().padStart(2, '0');
+    countdownEl.textContent = `${mins}:${secs}`;
+    if (seconds <= 0) seconds = 15 * 60;
+  }, 1000);
+
+  // Get Location
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      const { latitude, longitude } = pos.coords;
+      fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`)
+        .then(r => r.json())
+        .then(data => {
+          document.getElementById('location').value = `${data.city}, ${data.principalSubdivision}`;
+        });
+    });
+  }
+
+  // Form Submission
+  document.getElementById('gig-form').addEventListener('submit', function(e) {
+    setTimeout(() => {
+      document.getElementById('post-form').style.display = 'none';
+      document.getElementById('success').classList.remove('hidden');
+    }, 500);
+  });
+
+  // Boost Gig (Stripe)
+  function boostGig() {
+    fetch('https://buy.stripe.com/test_...', { method: 'GET' })
+      .then(() => alert('Boosted! Your gig is now #1 for 30 mins.'))
+      .catch(() => alert('Stripe test mode – boost activated!'));
+  }
+</script>
+
+</body>
+</html>
